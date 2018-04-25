@@ -1,8 +1,6 @@
 import java.io.*;
 
 public class TextDAOFileImplementation implements TextDAO {
-
-
     @Override
     public Text loadText() {
         Text text = null;
