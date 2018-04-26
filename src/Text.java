@@ -21,38 +21,51 @@ public class Text {
                 else map.put(Character.toLowerCase(text.charAt(i)), ++n);
             }
         }
-        return sortMap(map);
+        return getSortedMap(map);
     }
 
-    private Map<Character, Integer> sortMap(Map<Character, Integer> map) {
-        if (map == null) {
-            throw new IllegalArgumentException();
-        }
-        Map<Character, Integer> linkedMap = new LinkedHashMap<>();
-        Character tmp = ' ';
-        boolean del = false;
+    private Map<Character, Integer> getSortedMap(Map<Character, Integer> map) {
+        List<Map.Entry<Character, Integer>> list = new LinkedList<>(map.entrySet());
+        Collections.sort(list, (o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
+        Map<Character, Integer> result = new LinkedHashMap<>();
+        for (Map.Entry<Character, Integer> entry : list) {
+            result.put(entry.getKey(),entry.getValue());
 
-        int j = map.size();
-        for (; j > linkedMap.size(); ) {
-            boolean stop = false;
-            for (Iterator<Character> itr = map.keySet().iterator(); !stop; ) {
-                Character k = itr.next();
-                tmp = k;
-                Integer v = map.get(k);
-
-                if (v.equals(Collections.max(map.values()))) {
-                    linkedMap.put(k, v);
-                    del = true;
-                    stop = true;
-                }
-            }
-            if (del) {
-                map.remove(tmp);
-                del = false;
-            }
         }
-        return linkedMap;
+        return result;
     }
+
+//    Так было ДО сегодняшнего занятия:
+//
+//    private Map<Character, Integer> sortMap(Map<Character, Integer> map) {
+//        if (map == null) {
+//            throw new IllegalArgumentException();
+//        }
+//        Map<Character, Integer> linkedMap = new LinkedHashMap<>();
+//        Character tmp = ' ';
+//        boolean del = false;
+//
+//        int j = map.size();
+//        for (; j > linkedMap.size(); ) {
+//            boolean stop = false;
+//            for (Iterator<Character> itr = map.keySet().iterator(); !stop; ) {
+//                Character k = itr.next();
+//                tmp = k;
+//                Integer v = map.get(k);
+//
+//                if (v.equals(Collections.max(map.values()))) {
+//                    linkedMap.put(k, v);
+//                    del = true;
+//                    stop = true;
+//                }
+//            }
+//            if (del) {
+//                map.remove(tmp);
+//                del = false;
+//            }
+//        }
+//        return linkedMap;
+//    }
 
     private boolean isSupportedChar(char ch) {
         for (String unsupportedChar : unsupportedChars) {
